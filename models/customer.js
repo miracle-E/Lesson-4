@@ -7,17 +7,23 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4
     },
-    name: DataTypes.STRING,
-    description: DataTypes.STRING
+    amount: DataTypes.FLOAT,
+    shipping_address: DataTypes.STRING,
+    order_address: DataTypes.STRING,
+    order_email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    order_date: DataTypes.DATE
   }, {
   });
   Customer.associate = function (models) {
     // associations can be defined here
-    Customer.belongsToMany(Product, {
-      through: 'product_categories',
-      as: "products",
-      foreignKey: "category_id",
-    });
+    Customer.hasMany(Order, {
+as: 'orders', 
+foreignKey:"customer_id"
+   });
+
 
   }
   return Customer;
